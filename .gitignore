@@ -1,0 +1,12 @@
+.DS_Store
+.env
+.env.*
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.zip
+__pycache__/
+*.pyc
+/tmp/
+/dist/

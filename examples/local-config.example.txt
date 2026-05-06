@@ -1,0 +1,5 @@
+# Local config example. Do not put real secrets in this file.
+
+ACADEMIC_DEWEIGHT_ANCHOR_DB=plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
+ACADEMIC_DEWEIGHT_CORPUS_ROOT=/path/to/your/local/corpus
+MINERU_API_KEY=replace-with-your-own-key-locally

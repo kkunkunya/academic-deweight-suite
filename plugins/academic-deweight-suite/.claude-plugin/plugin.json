@@ -1,0 +1,9 @@
+{
+  "name": "academic-deweight-suite",
+  "version": "0.2.1",
+  "description": "Academic deweighting toolkit with orchestrator entrypoint: source-preserving de-AI diagnosis, subagent coverage scanning, human-writing anchor binding, anchor-bound rewriting, and residual verification for papers, theses, grants, and technical reports.",
+  "author": {
+    "name": "Kunkun"
+  },
+  "skills": "./skills/"
+}
