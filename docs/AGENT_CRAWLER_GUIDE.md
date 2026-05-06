@@ -16,17 +16,17 @@ This repository can be consumed by agents that only crawl a GitHub URL.
 
 ## What Not To Assume
 
-- Do not assume a local SQLite DB is available.
+- Use the included SQLite DB for bundled runtime-card and corpus-anchor retrieval.
 - Do not treat mechanically extracted corpus candidates as final human anchors.
 - Do not copy human source quotes into rewritten user text.
 - Do not change citations, numbers, units, formulas, table labels, or claim polarity.
 
-## Local DB
+## Anchor DB
 
-If available, the user's local DB should be placed at:
+The DB is included at:
 
 ```text
 plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
 ```
 
-If unavailable, return `blocked: missing_human_anchor` for rewrite steps that need real anchors.
+If a task needs newer anchors beyond the included DB, ask the user for a local DB or local source files.

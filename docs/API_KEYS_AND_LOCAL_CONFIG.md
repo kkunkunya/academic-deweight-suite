@@ -18,6 +18,5 @@ Never commit:
 .env
 .env.local
 .env.production
-*.sqlite
-*.sqlite3
+private SQLite databases not intended for redistribution
 ```

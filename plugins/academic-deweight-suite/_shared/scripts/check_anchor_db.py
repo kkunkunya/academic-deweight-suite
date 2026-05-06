@@ -30,6 +30,11 @@ def count(conn: sqlite3.Connection, table: str, where: str = "", params: tuple[o
     return int(conn.execute(f"SELECT COUNT(*) FROM {table}{suffix}", params).fetchone()[0])
 
 
+def metadata_value(conn: sqlite3.Connection, key: str) -> str:
+    row = conn.execute("SELECT value FROM metadata WHERE key=?", (key,)).fetchone()
+    return str(row[0]) if row else ""
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("db", type=Path)
@@ -43,6 +48,22 @@ def main() -> None:
     missing = REQUIRED_TABLES - tables
     if missing:
         fail("missing tables: " + ", ".join(sorted(missing)))
+
+    public_safe = metadata_value(conn, "public_safe").lower() == "true"
+    cards = count(conn, "card_entries")
+
+    if public_safe:
+        if cards < 20:
+            fail(f"runtime card entry count too low: {cards}")
+        local_paths = count(
+            conn,
+            "source_documents",
+            "source_path LIKE '/Users/%' OR source_path LIKE '/Volumes/%'",
+        )
+        if local_paths:
+            fail(f"portable DB contains local absolute source paths: {local_paths}")
+        print(f"PASS: {args.db} tables={len(tables)} public_safe=true card_entries={cards}")
+        return
 
     hu_docs = count(conn, "source_documents", "slug LIKE ?", ("%huyuxiao-phd%",))
     if hu_docs < 2:
@@ -72,7 +93,6 @@ def main() -> None:
     if excerpts < 20:
         fail(f"Hu practice excerpt count too low: {excerpts}")
 
-    cards = count(conn, "card_entries")
     if cards < 20:
         fail(f"runtime card entry count too low: {cards}")
 

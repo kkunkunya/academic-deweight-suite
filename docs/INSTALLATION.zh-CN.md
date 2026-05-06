@@ -23,18 +23,18 @@ plugins/academic-deweight-suite/_shared/references/anchor-curation-review-gate.m
 academic-deweight-suite
 ```
 
-## 本地锚点数据库
+## 内置锚点数据库
 
-公开仓库不包含 `academic_deweight_anchors.sqlite`。
+仓库包含一个可直接查询的 SQLite 锚点库 `academic_deweight_anchors.sqlite`。
 
-请在本地创建：
-
-```text
-plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
-```
-
-然后验证：
+验证：
 
 ```bash
 python3 plugins/academic-deweight-suite/_shared/scripts/check_anchor_db.py plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
+```
+
+如需重新生成较小的 practice-card-only DB：
+
+```bash
+python3 plugins/academic-deweight-suite/_shared/scripts/build_anchor_db.py --cards-only --out plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
 ```

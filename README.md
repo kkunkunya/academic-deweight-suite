@@ -29,16 +29,22 @@ Integrity Snapshot
 -> Residual verification
 ```
 
-## Public Package Boundary
+## SQLite Anchor Database
 
-This public package intentionally does not include the local SQLite anchor corpus.
-
-The original local database may contain real academic excerpts, local file paths, and private curation state. For public distribution, only the schema, scripts, templates, and plugin workflow are included.
-
-To use a local anchor database, build or provide it on your own machine and keep it out of Git:
+This package includes a complete SQLite anchor database:
 
 ```text
 plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
+```
+
+The included DB lets agents quickly retrieve A-code / writing-function anchors, human-writing practice cards, curated excerpts, corpus segments, negative style-only candidates, and review-decision state.
+
+The corpus redistribution rights are handled by the maintainer. Local absolute source paths inside the database are replaced with portable placeholders so the asset can move across machines.
+
+To rebuild a DB with your own full-text sources, use:
+
+```text
+python3 plugins/academic-deweight-suite/_shared/scripts/build_anchor_db.py --out plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite --hu-full <LOCAL_FULL_MD> --hu-anchor <LOCAL_ANCHOR_MD>
 ```
 
 ## Install

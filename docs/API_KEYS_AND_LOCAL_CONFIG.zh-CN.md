@@ -18,6 +18,5 @@ examples/local-config.example.txt
 .env
 .env.local
 .env.production
-*.sqlite
-*.sqlite3
+不准备再分发的私有 SQLite 数据库
 ```

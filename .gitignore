@@ -4,6 +4,7 @@
 *.sqlite
 *.sqlite3
 *.db
+!plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
 *.bak
 *.zip
 __pycache__/

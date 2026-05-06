@@ -29,19 +29,23 @@ Integrity Snapshot
 -> 残留验收
 ```
 
-## 公开包边界
+## SQLite 锚点数据库
 
-这个 GitHub 包不会包含本地 SQLite 锚点语料库。
-
-本地数据库可能包含真实论文摘录、本机绝对路径和私有 curator 状态。公开分发只保留 schema、脚本、模板和 plugin 工作流。
-
-如需使用本地锚点库，请在自己的机器上构建或提供：
+这个 GitHub 包包含完整 SQLite 锚点数据库：
 
 ```text
 plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
 ```
 
-并且不要把它提交到 Git。
+这个 DB 方便 agent 按 A-code / writing_function 快速检索真人写法锚点、实践卡、精选摘录、corpus segments、negative style-only candidates 和 review decision 状态。
+
+语料再分发权限由维护者处理。数据库里的本机绝对路径已替换为可迁移占位符，方便跨机器使用。
+
+如果你要用自己的 full-text 语料重新构建 DB，可以运行：
+
+```text
+python3 plugins/academic-deweight-suite/_shared/scripts/build_anchor_db.py --out plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite --hu-full <LOCAL_FULL_MD> --hu-anchor <LOCAL_ANCHOR_MD>
+```
 
 ## 安装
 

@@ -23,18 +23,18 @@ Enable:
 academic-deweight-suite
 ```
 
-## Local Anchor Database
+## Included Anchor Database
 
-The public repo does not include `academic_deweight_anchors.sqlite`.
+The repo includes `academic_deweight_anchors.sqlite` as a ready-to-query SQLite anchor database.
 
-Create the asset locally at:
-
-```text
-plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
-```
-
-Then verify it with:
+Verify it with:
 
 ```bash
 python3 plugins/academic-deweight-suite/_shared/scripts/check_anchor_db.py plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
+```
+
+To rebuild a smaller practice-card-only DB:
+
+```bash
+python3 plugins/academic-deweight-suite/_shared/scripts/build_anchor_db.py --cards-only --out plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
 ```

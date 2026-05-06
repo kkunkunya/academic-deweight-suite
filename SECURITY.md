@@ -1,9 +1,9 @@
 # Security
 
-Do not commit API keys, tokens, cookies, private corpora, or local SQLite anchor databases.
+Do not commit API keys, tokens, cookies, or private corpora that are not intended for redistribution.
 
-The public package excludes local corpus databases by design.
+This package includes a rights-cleared SQLite DB for fast agent retrieval. Larger local DBs should stay private unless you have redistribution rights.
 
 If you find a secret in this repository, remove it from history and rotate it immediately.
 
-Academic source excerpts may be copyright-sensitive. Keep full-text corpora and generated anchor DBs local unless you have explicit redistribution rights.
+Academic source excerpts may be copyright-sensitive. Only publish corpus databases when redistribution rights are handled.

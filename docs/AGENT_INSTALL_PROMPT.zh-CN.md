@@ -13,8 +13,8 @@
 5. plugins/academic-deweight-suite/_shared/references/rewrite-prescription-rubric.md
 6. plugins/academic-deweight-suite/_shared/references/anchor-curation-review-gate.md
 
-不要假设公开仓库包含本地锚点数据库。
-如果改写需要真人写法锚点，请向用户索取本地 SQLite DB，或只使用仓库内已有的已批准 runtime cards。
+使用仓库内置 SQLite 锚点库做 A-code / writing_function 检索、真人原句证据绑定、reviewed corpus anchor 检索和 negative style-only 反例检索。
+如果任务需要超出内置 DB 的新私有 corpus 锚点，请向用户索取本地 SQLite DB 或本地源文件。
 
 硬边界：
 - 没有 Semantic Anchor 不改写

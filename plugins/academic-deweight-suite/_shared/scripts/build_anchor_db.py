@@ -15,6 +15,7 @@ from pathlib import Path
 
 DEFAULT_HU_FULL = None
 DEFAULT_HU_ANCHOR = None
+PLUGIN_ROOT = Path(__file__).resolve().parents[2]
 
 
 @dataclass
@@ -34,6 +35,13 @@ def sha256_text(text: str) -> str:
 
 def normalize_space(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
+
+
+def source_path_for_db(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(PLUGIN_ROOT))
+    except ValueError:
+        return f"<LOCAL_SOURCE>/{path.name}"
 
 
 def create_schema(conn: sqlite3.Connection) -> None:
@@ -165,7 +173,7 @@ def insert_document(
           (slug, title, source_path, source_type, origin_kind, sha256, line_count, char_count)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """,
-        (slug, title, str(path), source_type, origin_kind, sha256_text(text), len(lines), len(text)),
+        (slug, title, source_path_for_db(path), source_type, origin_kind, sha256_text(text), len(lines), len(text)),
     )
     return Document(id=int(cur.lastrowid), slug=slug, path=path)
 
@@ -470,15 +478,9 @@ def main() -> None:
     parser.add_argument("--cards-root", type=Path, default=Path(__file__).resolve().parents[1] / "references" / "human-writing-practice-cards")
     parser.add_argument("--hu-full", type=Path, default=DEFAULT_HU_FULL, help="Local full-text Markdown source; not shipped in this public repo.")
     parser.add_argument("--hu-anchor", type=Path, default=DEFAULT_HU_ANCHOR, help="Local curated anchor Markdown source; not shipped in this public repo.")
+    parser.add_argument("--cards-only", action="store_true", help="Build a smaller DB from bundled runtime practice cards only.")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-
-    if args.hu_full is None or args.hu_anchor is None:
-        raise SystemExit("--hu-full and --hu-anchor are required. Public package does not ship local corpus sources.")
-
-    missing = [path for path in [args.hu_full, args.hu_anchor] if not path.exists()]
-    if missing:
-        raise SystemExit("missing required source: " + ", ".join(str(path) for path in missing))
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     if args.out.exists():
@@ -486,6 +488,32 @@ def main() -> None:
 
     conn = sqlite3.connect(args.out)
     create_schema(conn)
+
+    if args.cards_only:
+        card_entries = insert_practice_cards(conn, args.cards_root)
+        rebuild_fts(conn)
+        write_metadata(
+            conn,
+            {
+                "built_at": datetime.now(timezone.utc).isoformat(),
+                "builder": Path(__file__).name,
+                "cards_only": "true",
+                "build_mode": "cards_only",
+                "runtime_card_entries": card_entries,
+                "source_policy": "Cards-only DB includes bundled practice-card entries only.",
+            },
+        )
+        conn.commit()
+        conn.close()
+        print(f"PASS: built cards-only {args.out} with runtime_card_entries={card_entries}")
+        return
+
+    if args.hu_full is None or args.hu_anchor is None:
+        raise SystemExit("--hu-full and --hu-anchor are required. Public package does not ship local corpus sources.")
+
+    missing = [path for path in [args.hu_full, args.hu_anchor] if not path.exists()]
+    if missing:
+        raise SystemExit("missing required source: " + ", ".join(str(path) for path in missing))
 
     hu_full_doc = insert_document(
         conn,

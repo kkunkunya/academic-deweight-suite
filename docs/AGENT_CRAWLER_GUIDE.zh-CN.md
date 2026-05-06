@@ -16,17 +16,17 @@
 
 ## 不要假设
 
-- 不要假设本地 SQLite DB 已存在。
+- 使用仓库内置 SQLite DB 检索 runtime-card 和 corpus anchors。
 - 不要把机械摘录的 corpus candidate 当成最终真人锚点。
 - 不要把真人原句复制进用户改写文本。
 - 不要改动引用、数字、单位、公式、表格标签或论断方向。
 
-## 本地 DB
+## 锚点 DB
 
-如果用户提供本地 DB，应放在：
+DB 已包含在：
 
 ```text
 plugins/academic-deweight-suite/_shared/assets/academic_deweight_anchors.sqlite
 ```
 
-如果没有 DB，而任务又需要真人锚点，则返回 `blocked: missing_human_anchor`。
+如果任务需要内置 DB 之外的新锚点，再向用户索取本地 DB 或本地源文件。

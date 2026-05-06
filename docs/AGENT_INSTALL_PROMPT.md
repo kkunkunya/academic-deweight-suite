@@ -13,8 +13,8 @@ Reading order:
 5. plugins/academic-deweight-suite/_shared/references/rewrite-prescription-rubric.md
 6. plugins/academic-deweight-suite/_shared/references/anchor-curation-review-gate.md
 
-Do not assume the public repo includes a local anchor database.
-If a rewrite needs human-writing anchors, ask the user for a local SQLite DB or use only approved runtime cards that are present in the repository.
+Use the included SQLite anchor database for A-code / writing-function retrieval, human quote evidence, reviewed corpus anchors, and negative style-only counterexamples.
+If a task needs newer private corpus anchors beyond the included DB, ask the user for a local SQLite DB or local source files.
 
 Hard boundary:
 - no rewrite without Semantic Anchor
