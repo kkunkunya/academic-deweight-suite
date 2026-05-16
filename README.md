@@ -1,5 +1,10 @@
 # Academic Deweight Suite
 
+## Portfolio positioning
+
+This is a portfolio-facing academic writing Agent/Plugin project for source-preserving de-AI diagnosis and human-anchor-bound rewriting. It is kept public as a reusable Claude Code/Codex writing workflow asset.
+
+
 Academic Deweight Suite is an agent plugin for source-preserving academic de-AI and deweighting workflows.
 
 It is designed for papers, theses, grants, and technical reports where rewriting must not drift citations, numbers, formulas, terms, or claim strength.
